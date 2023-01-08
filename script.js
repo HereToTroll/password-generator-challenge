@@ -87,7 +87,12 @@ var upperCasedCharacters = [
   'Y',
   'Z'
 ];
-const password =[];
+const passwordArr =[];
+let passwordLength = 0;
+let specialCharactersConfirmation = undefined;
+let numericCharactersConfirmation = undefined;
+let lowerCasedCharactersConfirmation = undefined;
+let upperCasedCharactersConfirmation = undefined;
 // Pseudocode 
 // Ask about password length
 // Ask about special characters and generate random ammount < passwordLength  and push to array
@@ -100,13 +105,13 @@ const password =[];
 
 // Function to prompt user for password options
 function getPasswordOptions() { 
-  let passwordLength = prompt ("Please enter desirable password length from 10 to 64");
+  passwordLength = prompt ("Please enter desirable password length from 10 to 64");
     if (passwordLength >= 10 && passwordLength <= 64 ) {
-      password.length = passwordLength;
-      const specialCharactersConfirmation = confirm("Would you like to include special characters?");
-      const numericCharactersConfirmation = confirm ("Would you like to include numeric characters?");
-      const lowerCasedCharactersConfirmation = confirm ("Would you like to include lower cased characters?");
-      const upperCasedCharactersConfirmation = confirm ("Would you like to include upper cased characters?");
+      
+      specialCharactersConfirmation = confirm("Would you like to include special characters?");
+      numericCharactersConfirmation = confirm ("Would you like to include numeric characters?");
+      lowerCasedCharactersConfirmation = confirm ("Would you like to include lower cased characters?");
+      upperCasedCharactersConfirmation = confirm ("Would you like to include upper cased characters?");
       
       
 /*       if (specialCharactersConfirmation === true) {
@@ -136,9 +141,30 @@ function getRandom(arr) {
 
 // Function to generate password with user input
 function generatePassword() {
-  if (getPasswordOptions.specialCharactersConfirmation === true) {
-    console.log ("hello");
+  for (let i = 0 ; i < passwordLength; i++) {
+  if (specialCharactersConfirmation === true && passwordArr[passwordLength-1] === undefined) {
+    for (let i = 0; i < passwordArr.length - Math.floor(Math.random()*(passwordArr.length + 1)) +1; i++){
+      passwordArr.unshift(getRandom (specialCharacters));
+    }
   }
+  if (numericCharactersConfirmation === true && passwordArr[passwordLength-1] === undefined) {
+    for (let i = 0; i < passwordArr.length - Math.floor(Math.random()*(passwordArr.length + 1)) +1; i++){
+      passwordArr.unshift(getRandom (numericCharacters));
+    }
+  }
+  if (lowerCasedCharactersConfirmation === true && passwordArr[passwordLength-1] === undefined) {
+    for (let i = 0; i < passwordArr.length - Math.floor(Math.random()*(passwordArr.length + 1)) +1; i++){
+      passwordArr.unshift(getRandom (lowerCasedCharacters));
+    }
+  }
+  if (upperCasedCharactersConfirmation === true && passwordArr[passwordLength-1] === undefined) {
+    for (let i = 0; i < passwordArr.length - Math.floor(Math.random()*(passwordArr.length + 1)) +1; i++){
+      passwordArr.unshift(getRandom (upperCasedCharacters));
+    }
+  } 
+}
+passwordArr.sort(() => .5 - Math.random() );
+console.log(passwordArr);
 }
 
 // Get references to the #generate element
@@ -148,10 +174,26 @@ var generateBtn = document.querySelector('#generate');
 function writePassword() {
   var password = generatePassword();
   var passwordText = document.querySelector('#password');
-
-  passwordText.value = password;
+  
+  passwordText.value = passwordArr.join("");
 }
 // Add event listener to generate button
 generateBtn.addEventListener('click', writePassword);
 getPasswordOptions();
 generatePassword();
+
+// for (let i = 0; i < passwordArr.length - Math.floor(Math.random()*(passwordArr.length + 1)) + 10; i++){
+//   passwordArr.unshift(getRandom (specialCharacters));
+// }
+// for (let i = 0; i < passwordArr.length - Math.floor(Math.random()*(passwordArr.length + 1)) + 10; i++){
+//   passwordArr.unshift(getRandom (numericCharacters));
+// }
+// for (let i = 0; i < passwordArr.length - Math.floor(Math.random()*(passwordArr.length + 1)) + 10; i++){
+//   passwordArr.unshift(getRandom (numericCharacters));
+// }
+// for (let i = 0; i < passwordArr.length - Math.floor(Math.random()*(passwordArr.length + 1)) + 10; i++){
+//   passwordArr.unshift(getRandom (numericCharacters));
+// }
+
+
+//Math.floor(Math.random() * (maximum - minimum + 1)) + minimum
